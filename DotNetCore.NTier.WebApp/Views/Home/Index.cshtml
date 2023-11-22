@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DotNetCore.NTier.Models.Dto.WeatherForecast>
+
+@{
+    ViewData["Title"] = "Weather Forecast";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+@if (Model == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th><label asp-for="First().Date"></label></th>
+                <th><label asp-for="First().TemperatureC"></label></th>
+                <th><label asp-for="First().TemperatureF"></label></th>
+                <th><label asp-for="First().Summary"></label></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@item.TemperatureC</td>
+                    <td>@item.TemperatureF</td>
+                    <td>@item.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

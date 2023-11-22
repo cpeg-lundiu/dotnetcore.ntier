@@ -1,0 +1,60 @@
+﻿@page "/login"
+@inject NavigationManager navigationManager
+@inject ILoginService loginService
+@layout LoginLayout
+
+<div class="card">
+    <h4 class="card-header">Login</h4>
+    <div class="card-body">
+        <EditForm Model="model" OnValidSubmit="OnLoginClick">
+            <DataAnnotationsValidator />
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Login ID : </td>
+                        <td><InputText placeholder="Username" @bind-Value="model.Username" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ValidationMessage For="@(() => model.Username)" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password : </td>
+                        <td><InputText type="password" placeholder="Password" @bind-Value="model.Password" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ValidationMessage For="@(() => model.Password)" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginRequest model = new LoginRequest();
+
+    private bool LoggedIn
+    {
+        get { return loginService.IsLoggedIn; }
+    }
+
+    private async void OnLoginClick()
+    {
+        await loginService.Login(model);
+
+        if (LoggedIn)
+        {
+            navigationManager.NavigateTo(string.Empty);
+        }
+    }
+}

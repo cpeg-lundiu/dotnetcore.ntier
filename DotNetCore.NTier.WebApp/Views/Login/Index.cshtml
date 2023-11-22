@@ -1,0 +1,49 @@
+﻿@model DotNetCore.NTier.Models.Dto.LoginRequest
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    Context.Response.Redirect("Home");
+}
+
+<form method="post">
+    <div class="card">
+        <h4 class="card-header">Login</h4>
+        <div class="card-body">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label asp-for="Username"></label> : </td>
+                        <td><input type="text" placeholder="Username" asp-for="Username" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><span asp-validation-for="Username" class="text-danger"></span></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Password"></label> : </td>
+                        <td><input type="password" placeholder="Password" asp-for="Password" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><span asp-validation-for="Password" class="text-danger"></span></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

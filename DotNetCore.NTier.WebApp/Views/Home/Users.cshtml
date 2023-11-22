@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DotNetCore.NTier.Models.Dao.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+@if (Model == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th><label asp-for="First().Id"></label></th>
+                <th><label asp-for="First().Username"></label></th>
+                <th><label asp-for="First().CreateDate"></label></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Username</td>
+                    <td>@item.CreateDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

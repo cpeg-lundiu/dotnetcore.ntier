@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject ILoginService loginService
+
+<AuthorizeView>
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+            <main>
+                <article class="content px-4">
+                    <ErrorBoundary @ref="errorBoundary">
+                        <ChildContent>
+                            @Body
+                        </ChildContent>
+                        <ErrorContent Context="errorContent">
+                            <h3>@errorContent.GetType()</h3>
+                            <h3>@errorContent.Message</h3>
+                            <button class="btn btn-info" @onclick="() => errorBoundary?.Recover()">Clear</button>
+                        </ErrorContent>
+                    </ErrorBoundary>
+                </article>
+            </main>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>Not Authorized</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private ErrorBoundary? errorBoundary = new ErrorBoundary();
+
+    protected override void OnInitialized()
+    {
+        if (!loginService.IsLoggedIn)
+            navigationManager.NavigateTo("login");
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet() => errorBoundary?.Recover();
+}
